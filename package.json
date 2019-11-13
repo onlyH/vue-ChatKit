@@ -10,7 +10,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
-    "@pusher/chatkit-client": "^1.13.2",
+    "@pusher/chatkit-client": "^1.2.2",
     "bootstrap-vue": "^2.0.4",
     "moment": "^2.24.0",
     "vue": "^2.5.2",

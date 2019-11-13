@@ -17,7 +17,7 @@
 </template>
 
 <script>
-    import {mapState} from 'vuex'
+    import {mapActions, mapState} from 'vuex'
 
     export default {
         name: "RoomList",
@@ -26,6 +26,14 @@
                 'rooms',
                 'activeRoom'
             ])
+        },
+        methods: {
+            ...mapActions([
+                'changeRoom'
+            ]),
+            onChange(room) {
+                this.changeRoom(room.id)
+            }
         }
     }
 </script>

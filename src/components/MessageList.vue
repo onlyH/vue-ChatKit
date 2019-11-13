@@ -7,9 +7,18 @@
       class="message-group"
       v-chat-scroll="{smooth:true}"
     >
+      <!--显示另一个用户正在输入的通知-->
+      <div class="user-typing">
+        <small
+          class="text-muted"
+          v-if="userTyping"
+        >
+          @{{userTyping}} is typing ...
+        </small>
+      </div>
       <div
         class="message"
-        v-for="(message,index)in messages"
+        v-for="(message,index) in messages"
         :key="index"
       >
         <div class="clearfix">
@@ -38,7 +47,8 @@
         name: "MessageList",
         computed: {
             ...mapState([
-                'messages'
+                'messages',
+                'userTyping'
             ])
         }
     }

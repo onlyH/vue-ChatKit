@@ -3,11 +3,11 @@
     <h5 class="text-center">Chat Login</h5>
     <hr>
     <b-form @submit.prevent="onSubmit">
-      <b-alert
-        variant="danger"
-        :show="hasError"
-      >{{error}}
-      </b-alert>
+<!--      <b-alert-->
+<!--        variant="danger"-->
+<!--        :show="hasError"-->
+<!--      >{{error}}-->
+<!--      </b-alert>-->
       <b-form-group
         id="userInputGroup"
         label="User Name"
@@ -20,6 +20,7 @@
           v-model="userId"
           autocomplete="off"
           :disabled="loading"
+          @input="isTyping"
           required
         >
         </b-form-input>
@@ -38,13 +39,15 @@
 </template>
 
 <script>
-    import {mapGetters, mapState} from 'vuex'
+    import {mapActions, mapGetters, mapState} from 'vuex'
+    import {isTyping} from "../chatkit";
 
     export default {
         name: "LoginForm",
         data() {
             return {
-                userId: ''
+                userId: '',
+                message: ''
             }
         },
         computed: {
@@ -53,12 +56,31 @@
                 return result ? result : this.loading
             },
             ...mapState([
+                'error',
+                'user',
                 'loading',
-                'error'
+                'sending',
+                'activeRoom'
             ]),
             ...mapGetters([
                 'hasError'
             ])
+        },
+        methods: {
+            ...mapActions([
+                'sendMessage',
+                'login'
+            ]),
+            async onSubmit() {
+                const result = await this.sendMessage(this.message)
+                if (result) {
+                    this.message = ''
+                }
+            },
+            //更新表单输入以发出键入事件
+            async isTyping() {
+                await isTyping(this.activeRoom.id)
+            }
         }
     }
 </script>
